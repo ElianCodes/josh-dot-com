@@ -6,7 +6,7 @@
 	"type": "module",
 	"scripts": {
 		"astro": "astro",
-		"build": "astro build",
+		"build": "astro check && astro build",
 		"dev": "astro dev",
 		"format": "prettier \"**/*\" --ignore-unknown",
 		"format:write": "pnpm format --write",
@@ -21,6 +21,7 @@
 		"tsc": "tsc"
 	},
 	"dependencies": {
+		"@astrojs/check": "^0.5.4",
 		"@astrojs/mdx": "^2.1.1",
 		"@astrojs/rss": "^4.0.5",
 		"@astrojs/sitemap": "^3.0.5",
