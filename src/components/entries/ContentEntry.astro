@@ -1,0 +1,90 @@
+---
+import { clsx } from "clsx";
+import { For, type JSX } from "solid-js";
+// import { Image } from "astro:assets";
+
+import { Anchor } from "../Anchor";
+import { Text } from "../Text";
+import styles from "./ContentEntry.module.css";
+import ContentEntryImage from "./ContentEntryImage.astro";
+
+const widths = {
+	full: styles.widthsFull,
+	half: styles.widthsHalf,
+	third: styles.widthsThird,
+};
+
+export type ContentEntryWidths = keyof typeof widths;
+
+export interface Props {
+	children?: JSX.Element;
+	class?: string | undefined;
+	description?: string | undefined;
+	image?: { src: ImageData; alt: string };
+	links?: [string, string][] | undefined;
+	subtitle: JSX.Element;
+	title?: string;
+	url: string;
+	widths: ContentEntryWidths;
+}
+const props = Astro.props;
+---
+
+<>
+	<li class={clsx(styles.contentEntry, widths[props.widths], props.class)}>
+		{
+			props.image && (
+				<ContentEntryImage
+					src={props.image.src}
+					alt={props.image.alt}
+					variant="round"
+				/>
+			)
+		}
+		<div class={styles.contents}>
+			<Text
+				as="a"
+				class={styles.title}
+				fontSize="medium"
+				fontWeight="bold"
+				href={props.url}
+				{...props.url.startsWith("/") ? {} : { target: "_blank" }}
+			>
+				{props.title}
+			</Text>
+			<Text as="p" class={styles.subtitle} fontWeight="light">
+				{props.subtitle}
+			</Text>
+			{
+				props.description && (
+					<Text
+						as="div"
+						class={styles.description}
+						fontSize="small"
+						fontWeight="light"
+					>
+						{props.description}
+					</Text>
+				)
+			}
+			{
+				props.links && (
+					<Text as="p" class={styles.links} fontWeight="light">
+						<For each={props.links.sort(([a], [b]) => a.localeCompare(b))}>
+							{([text, href]) => (
+								<Anchor
+									{...(props.description
+										? { fontSize: "smaller" }
+										: { class: styles.anchorLarger, fontSize: "small" })}
+									href={href}
+								>
+									{text}
+								</Anchor>
+							)}
+						</For>
+					</Text>
+				)
+			}
+		</div>
+	</li>
+</>

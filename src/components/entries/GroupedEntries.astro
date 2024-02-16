@@ -1,0 +1,35 @@
+---
+import { CategorizedEntryList } from "./CategorizedEntryList";
+import type { CollectionEntry } from "astro:content";
+import ContentEntry from "./ContentEntry.astro";
+// import BlogEntry from "../blog/BlogEntry.astro";
+
+export interface Props {
+	groups: [string, CollectionEntry<"blog">[]][];
+}
+const { groups } = Astro.props;
+---
+
+{
+	groups.map(([category, entries]) => (
+		<>
+			<CategorizedEntryList category={category}>
+				{entries.map((entry) => {
+					return (
+						<ContentEntry
+							subtitle={entry.data.pubDate?.getDate()}
+							description={entry.data.description}
+							url={`/blog/${entry.slug}`}
+							title={entry.data.title}
+							image={entry.data.image}
+							widths="full"
+						/>
+					);
+				})}
+			</CategorizedEntryList>
+		</>
+	))
+}
+<!-- {entries.map((entry) => (
+	<BlogEntry blog={entry} />
+))} -->

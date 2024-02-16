@@ -1,0 +1,21 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+import { groupBy } from "~/utils";
+
+import GroupedEntries from "../entries/GroupedEntries.astro";
+// import BlogEntry from "./BlogEntry.astro";
+
+export interface Props {
+	blogs: CollectionEntry<"blog">[];
+}
+
+const { blogs } = Astro.props;
+---
+
+<GroupedEntries
+	groups={Object.entries(
+		groupBy(blogs, (blog) => blog.data.pubDate.getFullYear()),
+	).sort(([a], [b]) => +b - +a)}
+/>
+<!-- renderEntry={(blog) => <BlogEntry blog={blog} />} -->

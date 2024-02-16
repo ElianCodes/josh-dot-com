@@ -1,0 +1,27 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+import { ContentEntry } from "../entries/ContentEntry.astro";
+import { DateAndMinutes } from "./DateAndMinutes";
+
+export interface Props {
+	blog: CollectionEntry<"blog">;
+}
+const { blog } = Astro.props;
+const url = () => `/blog/${blog.slug}`;
+---
+
+<ContentEntry
+	description={blog.data.description}
+	image={blog.data.image && {
+		alt: blog.data.image.src,
+		src: `/blog/${blog.data.image.src}`,
+		variant: "round",
+	}}
+	subtitle={(
+		<DateAndMinutes body={blog.body} date={blog.data.pubDate ?? new Date()} />
+	)}
+	title={blog.data.title?.replaceAll("`", "") ?? "Untitled"}
+	url={url()}
+	widths="full"
+/>

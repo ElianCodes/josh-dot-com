@@ -4,7 +4,7 @@ import { getCollection } from "astro:content";
 import { Anchor } from "~/components/Anchor";
 import BodyContents from "~/components/BodyContents.astro";
 import HeroTertiary from "~/components/HeroTertiary.astro";
-import { BlogsGrouped } from "~/components/blog/BlogsGrouped";
+import BlogsGrouped from "~/components/blog/BlogsGrouped.astro";
 
 import { blogDescription } from "../constants";
 import HeroLayout from "../layouts/HeroLayout.astro";
@@ -30,7 +30,6 @@ const blogs = await getCollection("blog");
 	<BodyContents>
 		<BlogsGrouped
 			blogs={blogs.sort((a, b) => +b.data.pubDate - +a.data.pubDate)}
-			client:load
 		/>
 	</BodyContents>
 </HeroLayout>

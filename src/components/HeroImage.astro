@@ -1,0 +1,29 @@
+---
+import clsx from "clsx";
+import { Picture } from "astro:assets";
+
+import styles from "./HeroImage.module.css";
+
+export interface Props {
+	alt: string;
+	class?: string | undefined;
+	size: "large" | "small";
+	src: string;
+}
+
+const { alt, size, src } = Astro.props;
+---
+
+<div class={clsx(styles.heroImage, styles[size], Astro.props.class)}>
+	<Picture
+		alt={alt}
+		src={src}
+		class={styles[size]}
+		formats={["webp", "avif"]}
+	/>
+	<!-- <picture>
+		<source media="(prefers-color-scheme: dark)" srcset={src().dark} />
+		<source media="(prefers-color-scheme: light)" srcset={src().light} />
+		<img alt={props.alt} class={props.size} loading="lazy" src={src().dark} />
+	</picture> -->
+</div>
